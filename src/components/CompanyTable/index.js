@@ -2,7 +2,12 @@ import React, { Component } from "react";
 
 class CompanyTable extends Component {
   render() {
-    return <p>Hokolikan</p>;
+    return (
+      <div className="companyTable">
+        <input type="text"></input>
+        <div className="companyTable__table"></div>
+      </div>
+    );
   }
 }
 
