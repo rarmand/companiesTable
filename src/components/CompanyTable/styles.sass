@@ -1,0 +1,38 @@
+.companyTable
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+
+    &__search
+        margin: 40px 0
+
+        &--label
+            margin-right: 8px
+
+        &--input
+            box-sizing: border-box
+            padding: 10px
+            border: none
+            border: 2px solid #dbdbdb
+            background-color: #f8f8f8
+
+        &--input:focus
+            background-color: white
+
+    &__table
+        margin: 20px
+
+        &--table
+            border-collapse: collapse
+
+        &--cellHeader, &--cell
+            border-bottom: 1px solid #dbdbdb
+            padding: 12px 12px
+            text-align: center
+            vertical-align: center
+
+        &--cellHeader
+            background-color: #dbdbdb
+        &--cell:first-child
+            text-align: right
