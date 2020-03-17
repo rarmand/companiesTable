@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./styles.sass";
 
 class Table extends Component {
+
   render() {
     const headers = {
       id: "ID",
@@ -9,10 +10,6 @@ class Table extends Component {
       city: "City",
       totalIncome: "Total income"
     };
-
-    console.log(this.props.companies);
-    console.log(this.props.companies.length);
-    console.log(this.props.companies[0]);
 
     if (this.props.loading) {
       return <h2>Loading...</h2>;

@@ -17,34 +17,29 @@ class CompanyTable extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
+    let currentComponent = this;
+    let companies = [];
 
-    axios
-      .get(pathUrl)
-      .then(response => {
-        const data = response.data;
-        this.setState({ companies: data });
+    axios.get(pathUrl).then(async response => {
+      const data = response.data;
 
-        let companies = [];
+      await Promise.all(
+        data.map(async company => {
+          const idPath = detailsPathUrl + company["id"];
+          await axios.get(idPath).then(resp => {
+            const detailsData = resp.data;
+            const updatedCompany = {
+              ...company,
+              incomes: detailsData["incomes"]
+            };
 
-        Promise.all(
-          data.map(async company => {
-            const idPath = detailsPathUrl + company["id"];
-            await axios.get(idPath).then(resp => {
-              const detailsData = resp.data;
-              const updatedCompany = {
-                ...company,
-                incomes: detailsData["incomes"]
-              };
+            companies.push(updatedCompany);
+          });
+        })
+      ).catch(e => console.log(`Error! ${e.message}`));
 
-              companies.push(updatedCompany);
-            });
-          })
-        ).catch(e => console.log(`Error! ${e.message}`));
-
-        console.log(companies);
-        this.setState({ companies: companies, loading: false });
-      })
-      .catch(e => console.log(`Error! ${e.message}`));
+      currentComponent.setState({ companies: companies, loading: false });
+    });
   }
 
   render() {
