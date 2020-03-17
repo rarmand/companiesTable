@@ -12,7 +12,7 @@ function App() {
         <CompanyTable />
       </main>
       <footer className="app__footer">
-        <p className="app__footer--p">Copyright Aleksandra Holik</p>
+        <p className="app__footer--p">Copyright &copy; Aleksandra Holik 2020</p>
       </footer>
     </div>
   );

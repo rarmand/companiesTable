@@ -67,6 +67,7 @@ class CompanyTable extends Component {
 
   // change page
   paginate = number => {
+    console.log(number);
     this.setState({ currentPage: number });
   };
 
@@ -98,6 +99,7 @@ class CompanyTable extends Component {
         <Pagination
           totalCompanies={this.state.companiesFiltered.length}
           companiesPerPage={this.state.companiesPerPage}
+          currentPage={this.state.currentPage}
           paginate={this.paginate}
         />
       </div>
