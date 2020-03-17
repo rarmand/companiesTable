@@ -23,11 +23,23 @@ class Table extends Component {
     );
     const TableRow = (company, index) => (
       <tr key={index} className="tableContainer__table--row">
-        {Object.keys(headers).map(key => (
-          <td key={key} className="tableContainer__table--cell">
-            {company[key]}
-          </td>
-        ))}
+        {Object.keys(headers).map(key =>
+          key === "name" ? (
+            <td key={key} className="tableContainer__table--cell">
+              <a
+                href="!#"
+                className="tableContainer__table--a"
+                onClick={() => 1}
+              >
+                {company[key]}
+              </a>
+            </td>
+          ) : (
+            <td key={key} className="tableContainer__table--cell">
+              {company[key]}
+            </td>
+          )
+        )}
       </tr>
     );
 

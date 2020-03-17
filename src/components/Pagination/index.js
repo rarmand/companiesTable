@@ -1,12 +1,12 @@
 import React from "react";
 import "./styles.sass";
 
-function Pagination({
+const Pagination = ({
   totalCompanies,
   companiesPerPage,
   currentPage,
   paginate
-}) {
+}) => {
   const delta = 2;
   const lastPage = Math.ceil(totalCompanies / companiesPerPage);
   const leftPage = currentPage - delta;
@@ -39,7 +39,7 @@ function Pagination({
           ) : (
             <li key={number} className="pagination__list--element">
               <a
-                href="!#"
+                href={"!#" + number}
                 onClick={() => paginate(number)}
                 className="pagination__list--link"
               >
@@ -51,6 +51,6 @@ function Pagination({
       </ul>
     </div>
   );
-}
+};
 
 export default Pagination;
