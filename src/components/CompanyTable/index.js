@@ -3,6 +3,7 @@ import axios from "axios";
 import "./styles.sass";
 import Table from "../Table";
 import TableFilter from "../TableFilter";
+import Pagination from "../Pagination";
 
 const pathUrl = `https://recruitment.hal.skygate.io/companies`; // url to companies list
 const detailsPathUrl = `https://recruitment.hal.skygate.io/incomes/`; // needs an id of company
@@ -12,10 +13,10 @@ class CompanyTable extends Component {
     companies: [],
     loading: false,
     currentPage: 1,
-    postsPerPage: 10
+    companiesPerPage: 10
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.setState({ loading: true });
     let currentComponent = this;
     let companies = [];
@@ -40,13 +41,33 @@ class CompanyTable extends Component {
 
       currentComponent.setState({ companies: companies, loading: false });
     });
-  }
+  };
+
+  // change page
+  paginate = number => {
+    this.setState({ currentPage: number });
+  };
 
   render() {
+    // get current posts
+    const indexOfLastCompany =
+      this.state.currentPage * this.state.companiesPerPage;
+    const indexOfFirstCompany =
+      indexOfLastCompany - this.state.companiesPerPage;
+    const currentCompanies = this.state.companies.slice(
+      indexOfFirstCompany,
+      indexOfLastCompany
+    );
+
     return (
       <div className="companyTable">
         <TableFilter />
-        <Table loading={this.state.loading} companies={this.state.companies} />
+        <Table loading={this.state.loading} companies={currentCompanies} />
+        <Pagination
+          totalCompanies={this.state.companies.length}
+          companiesPerPage={this.state.companiesPerPage}
+          paginate={this.paginate}
+        />
       </div>
     );
   }
