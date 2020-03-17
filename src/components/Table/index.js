@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./styles.sass";
 
 class Table extends Component {
-
   render() {
     const headers = {
       id: "ID",
@@ -11,23 +10,30 @@ class Table extends Component {
       totalIncome: "Total income"
     };
 
+    console.log(this.props.companies);
+    console.log(this.props.companies.length);
+    console.log(this.props.companies[0]);
+
+    if (this.props.loading) {
+      return <h2>Loading...</h2>;
+    }
+
     return (
       <div className="tableContainer">
         <table className="tableContainer__table">
-          <caption>Companies incomes for 2019 year</caption>
           <thead>
             <tr className="tableContainer__table--rowHeader">
-              {Object.values(headers).map((value, index) => (
-                <th key={index} className="tableContainer__table--cellHeader">
+              {Object.values(headers).map(value => (
+                <th key={value} className="tableContainer__table--cellHeader">
                   {value}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {this.props.companies.map((company, index) => (
+            {this.props.companies.map(company => (
               <tr className="tableContainer__table--row">
-                {Object.keys(headers).map(key => (
+                {Object.keys(headers).map((key, index) => (
                   <td key={index} className="tableContainer__table--cell">
                     {company[key]}
                   </td>

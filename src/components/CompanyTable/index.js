@@ -16,41 +16,42 @@ class CompanyTable extends Component {
   };
 
   componentDidMount() {
-    // let companies = [];
-
     this.setState({ loading: true });
 
-    axios.get(pathUrl).then(response => {
-      const data = response.data;
+    axios
+      .get(pathUrl)
+      .then(response => {
+        const data = response.data;
+        this.setState({ companies: data });
 
-      data.forEach(company => {
-        // const idPath = detailsPathUrl + company["id"];
-        // axios.get(idPath).then(resp => {
-        //   const detailsData = resp.data; // id i tablica = obiekt
-        //   const updatedCompany = {
-        //     ...company,
-        //     incomes: detailsData["incomes"]
-        //   };
-        //   companies.push(updatedCompany);
-        // });
-      });
-      this.setState({ companies: data, loading: false });
-    });
-  }
+        let companies = [];
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.companies !== nextState.companies) {
-      return true;
-    }
-    return false;
+        Promise.all(
+          data.map(async company => {
+            const idPath = detailsPathUrl + company["id"];
+            await axios.get(idPath).then(resp => {
+              const detailsData = resp.data;
+              const updatedCompany = {
+                ...company,
+                incomes: detailsData["incomes"]
+              };
+
+              companies.push(updatedCompany);
+            });
+          })
+        ).catch(e => console.log(`Error! ${e.message}`));
+
+        console.log(companies);
+        this.setState({ companies: companies, loading: false });
+      })
+      .catch(e => console.log(`Error! ${e.message}`));
   }
 
   render() {
-
     return (
       <div className="companyTable">
         <TableFilter />
-        <Table companies={this.state.companies} />
+        <Table loading={this.state.loading} companies={this.state.companies} />
       </div>
     );
   }

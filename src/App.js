@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="app">
       <header className="app__header">
-        <h1 className="app__header--p">Data Science of Companys</h1>
+        <h1 className="app__header--p">Data Science of Companies</h1>
       </header>
       <main className="app__main">
         <CompanyTable />
