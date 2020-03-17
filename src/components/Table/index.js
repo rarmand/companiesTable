@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./styles.sass";
+import { Link } from "react-router-dom";
 
 class Table extends Component {
   render() {
@@ -26,13 +27,13 @@ class Table extends Component {
         {Object.keys(headers).map(key =>
           key === "name" ? (
             <td key={key} className="tableContainer__table--cell">
-              <a
-                href="!#"
+              <Link
+                to={"/companies/" + company.id}
                 className="tableContainer__table--a"
                 onClick={() => 1}
               >
                 {company[key]}
-              </a>
+              </Link>
             </td>
           ) : (
             <td key={key} className="tableContainer__table--cell">
