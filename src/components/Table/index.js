@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import "./styles.sass";
 
 class Table extends Component {
-
   render() {
+    const { loading, companies } = this.props;
+
     const headers = {
       id: "ID",
       name: "Name",
@@ -11,32 +12,35 @@ class Table extends Component {
       totalIncome: "Total income"
     };
 
-    if (this.props.loading) {
+    const TableHeader = () => (
+      <tr className="tableContainer__table--rowHeader">
+        {Object.values(headers).map(value => (
+          <th key={value} className="tableContainer__table--cellHeader">
+            {value}
+          </th>
+        ))}
+      </tr>
+    );
+    const TableRow = (company, index) => (
+      <tr key={index} className="tableContainer__table--row">
+        {Object.keys(headers).map(key => (
+          <td key={key} className="tableContainer__table--cell">
+            {company[key]}
+          </td>
+        ))}
+      </tr>
+    );
+
+    if (loading) {
       return <h2>Loading...</h2>;
     }
 
     return (
       <div className="tableContainer">
         <table className="tableContainer__table">
-          <thead>
-            <tr className="tableContainer__table--rowHeader">
-              {Object.values(headers).map(value => (
-                <th key={value} className="tableContainer__table--cellHeader">
-                  {value}
-                </th>
-              ))}
-            </tr>
-          </thead>
+          <thead>{TableHeader()}</thead>
           <tbody>
-            {this.props.companies.map(company => (
-              <tr className="tableContainer__table--row">
-                {Object.keys(headers).map((key, index) => (
-                  <td key={index} className="tableContainer__table--cell">
-                    {company[key]}
-                  </td>
-                ))}
-              </tr>
-            ))}
+            {companies.map((company, index) => TableRow(company, index))}
           </tbody>
         </table>
       </div>

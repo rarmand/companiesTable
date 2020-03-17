@@ -11,9 +11,10 @@ class TableFilter extends Component {
           {inputLabel}:
         </label>
         <input
+          type="text"
           id="inputCompanyName"
           className="tableFilter__input"
-          type="text"
+          onChange={e => this.props.filter(e.target.value)}
         ></input>
       </div>
     );
