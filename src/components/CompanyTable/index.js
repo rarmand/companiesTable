@@ -18,18 +18,21 @@ class CompanyTable extends Component {
     const DataStore = this.props.DataStore;
 
     // get current posts
-    const indexOfLastCompany =
-      DataStore.currentPage * DataStore.companiesPerPage;
-    const indexOfFirstCompany = indexOfLastCompany - DataStore.companiesPerPage;
-    const currentCompanies = DataStore.companiesFiltered.slice(
-      indexOfFirstCompany,
-      indexOfLastCompany
-    );
+    // const indexOfLastCompany =
+    //   DataStore.currentPage * DataStore.companiesPerPage;
+    // const indexOfFirstCompany = indexOfLastCompany - DataStore.companiesPerPage;
+    // const currentCompanies = DataStore.companiesFiltered.slice(
+    //   indexOfFirstCompany,
+    //   indexOfLastCompany
+    // );
 
     return (
       <div className="companyTable">
         <TableFilter filter={DataStore.filter} />
-        <Table loading={DataStore.loading} companies={currentCompanies} />
+        <Table
+          // loading={DataStore.loading}
+          // companies={DataStore.currentCompanies}
+        />
         <Pagination
           totalCompanies={DataStore.companiesFiltered.length}
           companiesPerPage={DataStore.companiesPerPage}

@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import "./styles.sass";
 import { Link } from "react-router-dom";
+import { inject, observer } from "mobx-react";
 
+@inject("DataStore")
+@observer
 class Table extends Component {
   render() {
-    const { loading, companies } = this.props;
+    // const { loading, companies } = this.props;
+    const DataStore = this.props.DataStore;
 
     const headers = {
       id: "ID",
@@ -44,7 +48,7 @@ class Table extends Component {
       </tr>
     );
 
-    if (loading) {
+    if (DataStore.loading) {
       return <h2>Loading...</h2>;
     }
 
@@ -53,7 +57,9 @@ class Table extends Component {
         <table className="tableContainer__table">
           <thead>{TableHeader()}</thead>
           <tbody>
-            {companies.map((company, index) => TableRow(company, index))}
+            {DataStore.currentCompanies.map((company, index) =>
+              TableRow(company, index)
+            )}
           </tbody>
         </table>
       </div>

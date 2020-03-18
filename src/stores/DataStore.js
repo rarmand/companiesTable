@@ -57,6 +57,18 @@ class DataStore {
       .catch(e => console.log(`Error! ${e.message}`));
   };
 
+  // dziala bardzo wolno
+  @computed get currentCompanies() {
+    if (this.loading) return [];
+
+    const indexOfLastCompany = this.currentPage * this.companiesPerPage;
+    const indexOfFirstCompany = indexOfLastCompany - this.companiesPerPage;
+    return this.companiesFiltered.slice(
+      indexOfFirstCompany,
+      indexOfLastCompany
+    );
+  }
+
   // change loading flag
   @action changeLoading = () => {
     this.loading = !this.loading;
