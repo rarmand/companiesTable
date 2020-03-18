@@ -14,22 +14,33 @@ incomes.
 @inject("DataStore")
 @observer
 class CompanyDetails extends Component {
-  state = {
-    company: {}
-  };
-
   componentDidMount() {
-    const DataStore = this.props.DataStore;
-    const id = this.props.match.params.id;
-    const company = DataStore.companies.find(company => company.id === id);
-    console.log(company);
-    // this.setState({ company: company });
+    this.props.DataStore.selectCompany(this.props.match.params.id);
   }
 
   render() {
+    const headers = {
+      id: "ID",
+      name: "Name",
+      city: "City",
+      totalIncome: "Total income",
+      averageIncome: "Average income"
+    };
+    const company = this.props.DataStore.company;
+
     return (
       <div className="companyDetails">
-        <h1>Object id : {this.props.match.params.id}</h1>
+        <ul>
+          {Object.keys(headers).map(key =>
+            key === "averageIncome" ? (
+              <li>xxx</li>
+            ) : (
+              <li>
+                {headers[key]}: <p>{company[key]}</p>
+              </li>
+            )
+          )}
+        </ul>
       </div>
     );
   }

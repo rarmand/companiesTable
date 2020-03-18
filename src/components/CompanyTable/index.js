@@ -8,9 +8,10 @@ import { inject, observer } from "mobx-react";
 @inject("DataStore")
 @observer
 class CompanyTable extends Component {
-  // download the data with API
+  // download the data with API if not downloaded yet
   componentDidMount = () => {
-    this.props.DataStore.downloadCompanies();
+    if (this.props.DataStore.companies.length === 0)
+      this.props.DataStore.downloadCompanies();
   };
 
   render() {
@@ -18,21 +19,18 @@ class CompanyTable extends Component {
     const DataStore = this.props.DataStore;
 
     // get current posts
-    // const indexOfLastCompany =
-    //   DataStore.currentPage * DataStore.companiesPerPage;
-    // const indexOfFirstCompany = indexOfLastCompany - DataStore.companiesPerPage;
-    // const currentCompanies = DataStore.companiesFiltered.slice(
-    //   indexOfFirstCompany,
-    //   indexOfLastCompany
-    // );
+    const indexOfLastCompany =
+      DataStore.currentPage * DataStore.companiesPerPage;
+    const indexOfFirstCompany = indexOfLastCompany - DataStore.companiesPerPage;
+    const currentCompanies = DataStore.companiesFiltered.slice(
+      indexOfFirstCompany,
+      indexOfLastCompany
+    );
 
     return (
       <div className="companyTable">
         <TableFilter filter={DataStore.filter} />
-        <Table
-          // loading={DataStore.loading}
-          // companies={DataStore.currentCompanies}
-        />
+        <Table loading={DataStore.loading} companies={currentCompanies} />
         <Pagination
           totalCompanies={DataStore.companiesFiltered.length}
           companiesPerPage={DataStore.companiesPerPage}

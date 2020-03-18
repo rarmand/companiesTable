@@ -5,6 +5,7 @@ const pathUrl = `https://recruitment.hal.skygate.io/companies`; // url to compan
 const detailsPathUrl = `https://recruitment.hal.skygate.io/incomes/`; // needs an id of company
 
 class DataStore {
+  @observable company = {};
   @observable companies = [];
   @observable companiesFiltered = [];
   @observable loading = false;
@@ -57,18 +58,6 @@ class DataStore {
       .catch(e => console.log(`Error! ${e.message}`));
   };
 
-  // dziala bardzo wolno
-  @computed get currentCompanies() {
-    if (this.loading) return [];
-
-    const indexOfLastCompany = this.currentPage * this.companiesPerPage;
-    const indexOfFirstCompany = indexOfLastCompany - this.companiesPerPage;
-    return this.companiesFiltered.slice(
-      indexOfFirstCompany,
-      indexOfLastCompany
-    );
-  }
-
   // change loading flag
   @action changeLoading = () => {
     this.loading = !this.loading;
@@ -87,6 +76,24 @@ class DataStore {
 
     this.companiesFiltered = companiesUpdated;
   };
+
+  @action selectCompany = id =>
+    (this.company = this.companies.find(
+      company => parseInt(company.id) === parseInt(id)
+    ));
+
+  
+  
+  // dziala bardzo wolno
+  // @computed get currentCompanies() {
+  //   if (this.loading) return [];
+
+  //   const indexOfLastCompany = this.currentPage * this.companiesPerPage;
+  //   const indexOfFirstCompany = indexOfLastCompany - this.companiesPerPage;
+  //   return this.companiesFiltered.slice(
+  //     indexOfFirstCompany,
+  //     indexOfLastCompany
+  //   );
 }
 
 const store = new DataStore();
