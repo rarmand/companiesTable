@@ -82,18 +82,22 @@ class DataStore {
       company => parseInt(company.id) === parseInt(id)
     ));
 
-  
-  
-  // dziala bardzo wolno
-  // @computed get currentCompanies() {
-  //   if (this.loading) return [];
+  averageIncome = (dateStart = 0, dateEnd = 0) => {
+    // if(dateStart === 0 && dateEnd === 0) {
 
-  //   const indexOfLastCompany = this.currentPage * this.companiesPerPage;
-  //   const indexOfFirstCompany = indexOfLastCompany - this.companiesPerPage;
-  //   return this.companiesFiltered.slice(
-  //     indexOfFirstCompany,
-  //     indexOfLastCompany
-  //   );
+    console.log(this.company.incomes);
+    return 0;
+
+    // let counter = 0;
+    // const averIncome = this.company.incomes.reduce((prevIncome, currIncome) => {
+    //   counter += 1;
+    //   return {
+    //     value: parseFloat(prevIncome.value) + parseFloat(currIncome.value)
+    //   };
+    // });
+
+    // return averIncome.value / counter;
+  };
 }
 
 const store = new DataStore();

@@ -16,6 +16,7 @@ incomes.
 class CompanyDetails extends Component {
   componentDidMount() {
     this.props.DataStore.selectCompany(this.props.match.params.id);
+    console.log(this.props.match.params.id);
   }
 
   render() {
@@ -26,20 +27,23 @@ class CompanyDetails extends Component {
       totalIncome: "Total income",
       averageIncome: "Average income"
     };
-    const company = this.props.DataStore.company;
+
+    const incomes = {
+      averageIncome: "Average income",
+      lastIcome: "Last month income"
+    };
+
+    let company = this.props.DataStore.company;
+    company["averageIncome"] = this.props.DataStore.averageIncome();
 
     return (
       <div className="companyDetails">
-        <ul>
-          {Object.keys(headers).map(key =>
-            key === "averageIncome" ? (
-              <li>xxx</li>
-            ) : (
-              <li>
-                {headers[key]}: <p>{company[key]}</p>
-              </li>
-            )
-          )}
+        <ul className="companyDetails__list">
+          {Object.keys(headers).map(key => (
+            <li key={key} className="companyDetails__list--element">
+              {headers[key]}: <b>{company[key]}</b>
+            </li>
+          ))}
         </ul>
       </div>
     );

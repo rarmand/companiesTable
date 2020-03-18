@@ -39,7 +39,7 @@ const Pagination = ({
           ) : (
             <li key={number} className="pagination__list--element">
               <a
-                href={"!#" + number}
+                href={"#" + number}
                 onClick={() => paginate(number)}
                 className="pagination__list--link"
               >
