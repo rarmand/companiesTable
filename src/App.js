@@ -3,14 +3,9 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import CompanyDetails from "./components/CompanyDetails";
 import CompanyTable from "./components/CompanyTable";
 import "./App.sass";
-import { inject, observer } from "mobx-react";
 
-@inject("DataStore")
-@observer
 class App extends Component {
   render() {
-    // const DataStore = this.props.DataStore;
-
     return (
       <Router>
         <div className="app">
