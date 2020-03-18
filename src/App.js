@@ -3,8 +3,17 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import CompanyDetails from "./components/CompanyDetails";
 import CompanyTable from "./components/CompanyTable";
 import "./App.sass";
+import { inject, observer } from "mobx-react";
 
+@inject("DataStore")
+@observer
 class App extends Component {
+  // download the data with API if not downloaded yet
+  componentDidMount = () => {
+    if (this.props.DataStore.companies.length === 0)
+      this.props.DataStore.downloadCompanies();
+  };
+
   render() {
     return (
       <Router>
