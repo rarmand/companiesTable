@@ -121,14 +121,3 @@ class CompanyDetails extends Component {
 }
 
 export default CompanyDetails;
-
-const MainList = (headers, company) => (
-  <ul className="companyDetails__mainList">
-    {Object.keys(headers).map(key => (
-      <li key={key} className="companyDetails__mainList--element">
-        <p className="companyDetails__mainList--title">{headers[key]}: </p>
-        <p className="companyDetails__mainList--value">{company[key]}</p>
-      </li>
-    ))}
-  </ul>
-);

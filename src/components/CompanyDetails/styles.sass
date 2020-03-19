@@ -1,8 +1,13 @@
+@import "../../App.sass"
+
 .companyDetails
     padding: 50px 0 0 0
     display: flex
     flex-direction: column
     align-items: center
+    width: 100%
+    @include mobile
+        padding: 20px 0 0 0
 
     &__mainList
         list-style: none
@@ -16,13 +21,16 @@
             display: flex
             font-size: 22px
 
+            @include mobile
+                font-size: 18px
+
         &--title
-            width: 280px
+            width: 50%
             text-align: right
             margin: 0 8px
 
         &--value
-            width: 280px
+            width: 50%
             margin: 0
             font-weight: bold
             color: #4f5e79
@@ -31,9 +39,15 @@
         list-style: none
         padding: 20px 0
         border-bottom: 1px solid #dbdbdb
+        @include mobile
+            padding: 20px 0 0 0
 
         &--element
             margin-bottom: 40px
+            font-size: 20px
+
+            @include mobile
+                font-size: 16px
 
         &--textbox
             display: flex
@@ -43,10 +57,10 @@
         &--title
             text-align: right
             margin: 0 8px
-            width: 200px
+            width: 50%
 
         &--value
-            width: 200px
+            width: 50%
             margin: 0
             font-weight: bold
             color: #4f5e79
@@ -61,6 +75,10 @@
         display: flex
         justify-content: center
         align-items: center
+        flex-direction: column
+
+        @include tablet
+            flex-direction: row
 
         &--label
             margin: 0 4px

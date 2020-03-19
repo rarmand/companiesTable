@@ -1,25 +1,48 @@
+$tablet-width: 768px
+$desktop-width: 1024px
+
+@mixin mobile
+    @media (max-width: #{$tablet-width - 1px})
+        @content
+
+@mixin tablet
+    @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px})
+        @content
+
+@mixin desktop
+    @media (min-width: #{$desktop-width})
+        @content
+
 .app
     min-height: 100vh
-    margin: 0 10%
     display: flex
     justify-content: center
     align-items: center
     flex-direction: column
+    margin: 0 10%
 
     background-color: white
     -webkit-box-shadow: 0px 0 10px 0px #cccccc
     -moz-box-shadow: 0px 0 10px 0px #cccccc
     box-shadow: 0px 0 10px 0px #cccccc
 
+    @include mobile
+        margin: 0 0
+
     &__header
         display: flex
         align-items: center
         justify-content: center
         border-bottom: 1px solid #dbdbdb
+        height: 200px
         width: 90%
 
     &__main
         flex-grow: 2
+        font-size: 20px
+
+        @include mobile
+            font-size: 16px
 
     &__footer
         height: 60px
@@ -29,9 +52,18 @@
         border-top: 1px solid #dbdbdb
         width: 90%
         margin-top: 40px
+        @include mobile
+            margin-top: 20px
 
     &__header--p
         font-size: 36px
+        text-align: center
+
+        @include desktop
+            font-size: 48px
 
     &__footer--p
         font-size: 14px
+
+        @include desktop
+            font-size: 18px
