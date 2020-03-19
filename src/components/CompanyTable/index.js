@@ -8,11 +8,6 @@ import { inject, observer } from "mobx-react";
 @inject("DataStore")
 @observer
 class CompanyTable extends Component {
-  // componentDidMount = () => {
-  //   if (this.props.DataStore.companies.length === 0)
-  //     this.props.DataStore.downloadCompanies();
-  // };
-
   render() {
     // mobx store
     const DataStore = this.props.DataStore;
@@ -29,7 +24,11 @@ class CompanyTable extends Component {
     return (
       <div className="companyTable">
         <TableFilter filter={DataStore.filter} />
-        <Table loading={DataStore.loading} companies={currentCompanies} />
+        <Table
+          onCompanyClick={DataStore.selectCompany}
+          loading={DataStore.loading}
+          companies={currentCompanies}
+        />
         <Pagination
           totalCompanies={DataStore.companiesFiltered.length}
           companiesPerPage={DataStore.companiesPerPage}

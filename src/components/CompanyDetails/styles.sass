@@ -1,12 +1,67 @@
 .companyDetails
-    padding: 60px 0
+    padding: 50px 0 0 0
+    display: flex
+    flex-direction: column
+    align-items: center
 
-    &__list
+    &__mainList
         list-style: none
         margin: 0
-        padding: 0
+        padding: 20px 0
+        border-bottom: 1px solid #dbdbdb
+        border-top: 1px solid #dbdbdb
 
         &--element
             margin: 8px
-            font-size: 22px
             display: flex
+            font-size: 22px
+
+        &--title
+            width: 280px
+            text-align: right
+            margin: 0 8px
+
+        &--value
+            width: 280px
+            margin: 0
+            font-weight: bold
+            color: #4f5e79
+
+    &__incomesList
+        list-style: none
+        padding: 20px 0
+        border-bottom: 1px solid #dbdbdb
+
+        &--element
+            margin-bottom: 40px
+
+        &--textbox
+            display: flex
+            justify-content: center
+            margin-bottom: 20px
+
+        &--title
+            text-align: right
+            margin: 0 8px
+            width: 200px
+
+        &--value
+            width: 200px
+            margin: 0
+            font-weight: bold
+            color: #4f5e79
+
+        &--datePickerBox
+            margin: 10px 0
+            display: flex
+            flex-direction: column
+
+    &__datePicker
+        padding: 10px 0
+        display: flex
+        justify-content: center
+        align-items: center
+
+        &--label
+            margin: 0 4px
+            width: 160px

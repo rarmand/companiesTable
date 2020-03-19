@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable, action } from "mobx";
 import axios from "axios";
 
 const pathUrl = `https://recruitment.hal.skygate.io/companies`; // url to companies list
@@ -77,26 +77,63 @@ class DataStore {
     this.companiesFiltered = companiesUpdated;
   };
 
-  @action selectCompany = id =>
-    (this.company = this.companies.find(
+  @action selectCompany = id => {
+    this.company = this.companies.find(
       company => parseInt(company.id) === parseInt(id)
-    ));
+    );
+  };
 
   averageIncome = (dateStart = 0, dateEnd = 0) => {
     // if(dateStart === 0 && dateEnd === 0) {
 
-    console.log(this.company.incomes);
-    return 0;
+    let counter = 0;
+    const averIncome = this.company.incomes.reduce((prevIncome, currIncome) => {
+      counter += 1;
+      return {
+        value: parseFloat(prevIncome.value) + parseFloat(currIncome.value)
+      };
+    });
 
-    // let counter = 0;
-    // const averIncome = this.company.incomes.reduce((prevIncome, currIncome) => {
-    //   counter += 1;
-    //   return {
-    //     value: parseFloat(prevIncome.value) + parseFloat(currIncome.value)
-    //   };
-    // });
+    return (averIncome.value / counter).toFixed(2);
+  };
 
-    // return averIncome.value / counter;
+  totalIncome = (dateStart = 0, dateEnd = 0) => {
+    // if(dateStart === 0 && dateEnd === 0) {
+
+    // count total income per company
+    const totalIncome = this.company.incomes.reduce((prevObj, currObj) => ({
+      value: parseFloat(prevObj.value) + parseFloat(currObj.value)
+    }));
+    return totalIncome.toFixed(2);
+  };
+
+  lastMonthIncome = () => {
+    const date = new Date();
+    let income = 0;
+
+    this.company.incomes.forEach(data => {
+      const incomeDate = new Date(data.date);
+
+      if (date.getMonth() === 0) {
+        if (
+          incomeDate.getMonth() !== 11 ||
+          incomeDate.getFullYear() !== date.getFullYear() - 1
+        ) {
+          return;
+        }
+      }
+
+      if (
+        incomeDate.getMonth() !== date.getMonth() - 1 ||
+        incomeDate.getFullYear() !== date.getFullYear()
+      ) {
+        return;
+      }
+
+      income += data.value;
+    });
+
+    return income.toFixed(2);
   };
 }
 
