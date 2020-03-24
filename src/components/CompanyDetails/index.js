@@ -22,9 +22,9 @@ class CompanyDetails extends Component {
     endDataAver: new Date()
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     if (this.props.DataStore.companies.length === 0) {
-      this.props.DataStore.downloadCompanies();
+      await this.props.DataStore.downloadCompanies();
     }
 
     const id = this.props.match.params.id;

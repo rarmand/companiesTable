@@ -17,46 +17,41 @@ class DataStore {
     let companies = [];
     this.loading = true;
 
-    return new Promise(() => {
-      axios
-        .get(pathUrl)
-        .then(async response => {
-          const data = response.data;
+    return axios.get(pathUrl).then(async response => {
+      const data = response.data;
 
-          await Promise.all(
-            data.map(async company => {
-              const idPath = detailsPathUrl + company["id"];
-              await axios.get(idPath).then(resp => {
-                const detailsData = resp.data;
+      await Promise.all(
+        data.map(async company => {
+          const idPath = detailsPathUrl + company["id"];
+          await axios.get(idPath).then(resp => {
+            const detailsData = resp.data;
 
-                // count total income per company
-                const totalIncome = detailsData["incomes"].reduce(
-                  (prevObj, currObj) => ({
-                    value: parseFloat(prevObj.value) + parseFloat(currObj.value)
-                  })
-                );
+            // count total income per company
+            const totalIncome = detailsData["incomes"].reduce(
+              (prevObj, currObj) => ({
+                value: parseFloat(prevObj.value) + parseFloat(currObj.value)
+              })
+            );
 
-                const updatedCompany = {
-                  ...company,
-                  incomes: detailsData["incomes"],
-                  totalIncome: totalIncome.value.toFixed(2)
-                };
+            const updatedCompany = {
+              ...company,
+              incomes: detailsData["incomes"],
+              totalIncome: totalIncome.value.toFixed(2)
+            };
 
-                companies.push(updatedCompany);
-              });
-            })
-          ).catch(e => console.log(`Error! ${e.message}`));
-
-          // sorting
-          companies.sort((prevObj, currentObj) =>
-            prevObj.totalIncome >= currentObj.totalIncome ? -1 : 1
-          );
-          this.companies = companies;
-          this.companiesFiltered = companies;
-
-          this.loading = false;
+            companies.push(updatedCompany);
+          });
         })
-        .catch(e => console.log(`Error! ${e.message}`));
+      ).catch(e => console.log(`Error! ${e.message}`));
+
+      // sorting
+      companies.sort((prevObj, currentObj) =>
+        prevObj.totalIncome >= currentObj.totalIncome ? -1 : 1
+      );
+      this.companies = companies;
+      this.companiesFiltered = companies;
+
+      this.loading = false;
     });
   };
 
