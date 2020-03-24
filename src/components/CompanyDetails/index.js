@@ -37,11 +37,10 @@ class CompanyDetails extends Component {
   render() {
     const DataStore = this.props.DataStore;
 
-    if (DataStore.loading) {
+    if (DataStore.loading || DataStore.company === null) {
       return <h2>Loading...</h2>;
     }
 
-    let company = DataStore.company;
     const headers = {
       name: "Name",
       id: "ID",
@@ -54,6 +53,7 @@ class CompanyDetails extends Component {
       totalIncome: "Total income"
     };
 
+    let company = DataStore.company;
     company["averageIncome"] = DataStore.averageIncome();
     company["lastMonthIncome"] = DataStore.lastMonthIncome();
 

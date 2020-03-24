@@ -5,7 +5,7 @@ const pathUrl = `https://recruitment.hal.skygate.io/companies`; // url to compan
 const detailsPathUrl = `https://recruitment.hal.skygate.io/incomes/`; // needs an id of company
 
 class DataStore {
-  @observable company = {};
+  @observable company = null;
   @observable companies = [];
   @observable companiesFiltered = [];
   @observable loading = false;
@@ -15,53 +15,51 @@ class DataStore {
   // download the data with API
   @action downloadCompanies = () => {
     let companies = [];
-    this.changeLoading();
+    this.loading = true;
 
-    axios
-      .get(pathUrl)
-      .then(async response => {
-        const data = response.data;
+    return new Promise(() => {
+      axios
+        .get(pathUrl)
+        .then(async response => {
+          const data = response.data;
 
-        await Promise.all(
-          data.map(async company => {
-            const idPath = detailsPathUrl + company["id"];
-            await axios.get(idPath).then(resp => {
-              const detailsData = resp.data;
+          await Promise.all(
+            data.map(async company => {
+              const idPath = detailsPathUrl + company["id"];
+              await axios.get(idPath).then(resp => {
+                const detailsData = resp.data;
 
-              // count total income per company
-              const totalIncome = detailsData["incomes"].reduce(
-                (prevObj, currObj) => ({
-                  value: parseFloat(prevObj.value) + parseFloat(currObj.value)
-                })
-              );
+                // count total income per company
+                const totalIncome = detailsData["incomes"].reduce(
+                  (prevObj, currObj) => ({
+                    value: parseFloat(prevObj.value) + parseFloat(currObj.value)
+                  })
+                );
 
-              const updatedCompany = {
-                ...company,
-                incomes: detailsData["incomes"],
-                totalIncome: totalIncome.value.toFixed(2)
-              };
+                const updatedCompany = {
+                  ...company,
+                  incomes: detailsData["incomes"],
+                  totalIncome: totalIncome.value.toFixed(2)
+                };
 
-              companies.push(updatedCompany);
-            });
-          })
-        ).catch(e => console.log(`Error! ${e.message}`));
+                companies.push(updatedCompany);
+              });
+            })
+          ).catch(e => console.log(`Error! ${e.message}`));
 
-        // sorting
-        companies.sort((prevObj, currentObj) =>
-          prevObj.totalIncome >= currentObj.totalIncome ? -1 : 1
-        );
-        this.companies = companies;
-        this.companiesFiltered = companies;
+          // sorting
+          companies.sort((prevObj, currentObj) =>
+            prevObj.totalIncome >= currentObj.totalIncome ? -1 : 1
+          );
+          this.companies = companies;
+          this.companiesFiltered = companies;
 
-        this.changeLoading();
-      })
-      .catch(e => console.log(`Error! ${e.message}`));
+          this.loading = false;
+        })
+        .catch(e => console.log(`Error! ${e.message}`));
+    });
   };
 
-  // change loading flag
-  @action changeLoading = () => {
-    this.loading = !this.loading;
-  };
   // change page
   @action paginate = number => {
     this.currentPage = number;
@@ -78,15 +76,15 @@ class DataStore {
   };
 
   @action selectCompany = id => {
-    this.changeLoading();
     this.company = this.companies.find(
       company => parseInt(company.id) === parseInt(id)
     );
-    this.changeLoading();
   };
 
   averageIncome = (dateStart = 0, dateEnd = 0) => {
     // if(dateStart === 0 && dateEnd === 0) {
+
+    if (this.company === null) return 0;
 
     let counter = 0;
     const averIncome = this.company.incomes.reduce((prevIncome, currIncome) => {
@@ -101,6 +99,7 @@ class DataStore {
 
   totalIncome = (dateStart = 0, dateEnd = 0) => {
     // if(dateStart === 0 && dateEnd === 0) {
+    if (this.company === null) return 0;
 
     // count total income per company
     const totalIncome = this.company.incomes.reduce((prevObj, currObj) => ({
@@ -110,6 +109,8 @@ class DataStore {
   };
 
   lastMonthIncome = () => {
+    if (this.company === null) return 0;
+
     const date = new Date();
     let income = 0;
 
