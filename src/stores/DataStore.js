@@ -78,9 +78,11 @@ class DataStore {
   };
 
   @action selectCompany = id => {
+    this.changeLoading();
     this.company = this.companies.find(
       company => parseInt(company.id) === parseInt(id)
     );
+    this.changeLoading();
   };
 
   averageIncome = (dateStart = 0, dateEnd = 0) => {

@@ -16,10 +16,17 @@ incomes.
 @observer
 class CompanyDetails extends Component {
   state = {
-    date: new Date()
+    startDataTotal: new Date(),
+    endDataTotal: new Date(),
+    startDataAver: new Date(),
+    endDataAver: new Date()
   };
 
   componentDidMount() {
+    if (this.props.DataStore.companies.length === 0) {
+      this.props.DataStore.downloadCompanies();
+    }
+
     const id = this.props.match.params.id;
     this.props.DataStore.selectCompany(id);
   }
@@ -55,9 +62,7 @@ class CompanyDetails extends Component {
         <ul className="companyDetails__mainList">
           {Object.keys(headers).map(key => (
             <li key={key} className="companyDetails__mainList--element">
-              <p className="companyDetails__mainList--title">
-                {headers[key]}:{" "}
-              </p>
+              <p className="companyDetails__mainList--title">{headers[key]}:</p>
               <p className="companyDetails__mainList--value">{company[key]}</p>
             </li>
           ))}
